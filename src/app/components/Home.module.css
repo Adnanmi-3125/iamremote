@@ -1,0 +1,58 @@
+.homeContainer {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+  }
+  
+  .heroSection {
+    background-size: cover; /* Ensure the background image covers the section */
+    background-origin: border-box;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding-top: 20px;
+    position: relative;
+  }
+  
+  .inputGroup {
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  .btnGroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 10px;
+  }
+  
+  @media (max-width: 576px) {
+    .heroSection {
+      padding-top: 10px;
+      height: 70vh;
+      background-size:cover; /* Ensure the background image contains within the viewport */
+    }
+  
+    .inputGroup {
+      width: 100%;
+      max-width: 100%;
+      padding: 0 15px; /* Add some padding for better presentation */
+    }
+  
+    .btnGroup {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 0 15px; /* Add some padding for better presentation */
+    }
+  
+    .card {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  
+    .card-body { 
+      flex-wrap: wrap; 
+    }
+  }

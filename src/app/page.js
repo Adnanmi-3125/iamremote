@@ -1,4 +1,3 @@
-// src/app/page.js
 'use client';
 import { Link } from 'react-scroll';
 import { useEffect, useState } from 'react';
@@ -6,16 +5,16 @@ import { Button } from 'react-bootstrap';
 import JobCard from './components/JobCard';
 import styles from './components/Home.module.css';
 
-const BEARER_TOKEN = '2af29778e141512ff7644b7a0bd781b4a4fc73498fd812853c28a219bfa3fb7ec0d3ca6ce539c5676285808cfdd444592629e1d5eea471437902a31bfae2fee0205b38fe7a709424e5dba0448b2d6bd1c82b47f1819a9fe9bc1a1d8234493ab4b8bfa0ec649f4ada275a0651acce5aca899a661b161e22a81339cfc633bd03b1';
-
 export default function Home() {
   const [jobs, setJobs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filteredJobs, setFilteredJobs] = useState([]);
 
+  const BEARER_TOKEN = "3125mhow3125";
+
   useEffect(() => {
-    fetch('http://localhost:1337/api/Jobs?populate=*', {
+    fetch('http://localhost:5430/api/jobs', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${BEARER_TOKEN}`,
@@ -24,10 +23,9 @@ export default function Home() {
     })
       .then(response => response.json())
       .then(data => {
-        const sortedJobs = data.data.sort((a, b) => new Date(b.attributes.publishedAt) - new Date(a.attributes.publishedAt));
+        const sortedJobs = data.sort((a, b) => new Date(b.publishedat) - new Date(a.publishedat));
         setJobs(sortedJobs);
-        setJobs(data.data);
-        setFilteredJobs(data.data);
+        setFilteredJobs(sortedJobs);
       })
       .catch(error => console.error('Error fetching jobs:', error));
   }, []);
@@ -35,7 +33,7 @@ export default function Home() {
   const handleSearch = () => {
     const searchQueryLower = searchQuery.toLowerCase();
     let filtered = jobs.filter(job => {
-      const { title, tags, company } = job.attributes;
+      const { title, tags, company } = job;
       return (
         title.toLowerCase().includes(searchQueryLower) ||
         tags.toLowerCase().includes(searchQueryLower) ||
@@ -44,7 +42,7 @@ export default function Home() {
     });
 
     if (filterCategory) {
-      filtered = filtered.filter(job => job.attributes.classification === filterCategory);
+      filtered = filtered.filter(job => job.classification === filterCategory);
     }
 
     setFilteredJobs(filtered);
@@ -52,12 +50,12 @@ export default function Home() {
 
   const handleFilter = (category) => {
     setFilterCategory(category);
-    let filtered = jobs?.filter(job => job.attributes.classification === category);
+    let filtered = jobs?.filter(job => job.classification === category);
 
     if (searchQuery) {
       const searchQueryLower = searchQuery.toLowerCase();
       filtered = filtered.filter(job => {
-        const { title, tags, company } = job.attributes;
+        const { title, tags, company } = job;
         return (
           title.toLowerCase().includes(searchQueryLower) ||
           tags.toLowerCase().includes(searchQueryLower) ||
